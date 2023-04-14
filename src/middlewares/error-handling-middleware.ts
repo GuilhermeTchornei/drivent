@@ -3,6 +3,8 @@ import httpStatus from 'http-status';
 import { ApplicationError } from '@/protocols';
 
 export function handleApplicationErrors(err: ApplicationError | Error, _req: Request, res: Response) {
+  console.error(err.name === 'NotFoundError');
+
   if (err.name === 'CannotEnrollBeforeStartDateError') {
     return res.status(httpStatus.BAD_REQUEST).send({
       message: err.message,
