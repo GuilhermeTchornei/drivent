@@ -1,4 +1,6 @@
-import { TicketType } from '@prisma/client';
+import { connect } from 'http2';
+import { Enrollment, TicketType } from '@prisma/client';
+import dayjs from 'dayjs';
 import { prisma } from '@/config';
 
 export async function findManyTicketsTypes(): Promise<TicketType[]> {
@@ -18,7 +20,28 @@ export async function findFirstTicketByUser(userId: number) {
   });
 }
 
+export async function findEnrollment(userId: number) {
+  return await prisma.enrollment.findFirst({ where: { userId } });
+}
+
+export async function createTicket(ticketTypeId: number, userId: number, enrollmentId: number) {
+  const ticket = await prisma.ticket.create({
+    data: {
+      status: 'RESERVED',
+      enrollmentId,
+      ticketTypeId,
+    },
+    include: {
+      TicketType: true,
+    },
+  });
+
+  return ticket;
+}
+
 export default {
   findManyTicketsTypes,
   findFirstTicketByUser,
+  createTicket,
+  findEnrollment,
 };
