@@ -1,7 +1,7 @@
 import { notFoundError, unauthorizedError } from '@/errors';
 import { CardData } from '@/protocols';
-import paymentRepository from '@/repositories/payment-repository';
-import ticketRepository from '@/repositories/ticket-repository';
+import paymentRepository from '@/repositories/payments-repository';
+import ticketRepository from '@/repositories/tickets-repository';
 
 async function findPaymentByTicketId(ticketId: number, userId: number) {
   const ticket = await ticketRepository.findUniqueTicketById(ticketId);
@@ -27,8 +27,8 @@ async function createPayment(ticketId: number, cardData: CardData, userId: numbe
   return payment;
 }
 
-const paymentService = {
+const paymentsService = {
   findPaymentByTicketId,
   createPayment,
 };
-export default paymentService;
+export default paymentsService;

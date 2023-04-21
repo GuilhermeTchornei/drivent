@@ -1,5 +1,5 @@
 import { notFoundError } from '@/errors';
-import ticketrepository from '@/repositories/ticket-repository';
+import ticketrepository from '@/repositories/tickets-repository';
 
 async function getAllTicketsTypes() {
   return await ticketrepository.findManyTicketsTypes();
