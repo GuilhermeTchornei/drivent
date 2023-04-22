@@ -1,5 +1,3 @@
-import { Payment, Ticket } from '@prisma/client';
-
 export type ApplicationError = {
   name: string;
   message: string;
