@@ -108,8 +108,7 @@
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
 <a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">11x</span>
+<a name='L46'></a><a href='#L46'>46</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -124,9 +123,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -146,7 +142,6 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -155,60 +150,62 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span></td><td class="text"><pre class="prettyprint lang-js">import { forbiddenError, notFoundError } from "@/errors";
-import bookingRepository from "@/repositories/booking-repository";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { TicketStatus } from '@prisma/client';
+import { forbiddenError, notFoundError } from '@/errors';
+import bookingRepository from '@/repositories/booking-repository';
 import ticketRepository from '@/repositories/tickets-repository';
-import { TicketStatus } from "@prisma/client";
 &nbsp;
 async function getBooking(userId: number) {
-    const booking = await bookingRepository.findFirstBooking(userId);
-    if (!booking) throw notFoundError();
+  const booking = await bookingRepository.findFirstBooking(userId);
+  if (!booking) throw notFoundError();
 &nbsp;
-    return booking;
+  return booking;
 }
 &nbsp;
 async function postBooking(roomId: number, userId: number) {
-    const ticket = await ticketRepository.findFirstTicketByUser(userId);
-    if (
-        ticket.status !== TicketStatus.PAID ||
-        ticket.TicketType.isRemote ||
-        !ticket.TicketType.includesHotel
-    ) throw forbiddenError();
+  const ticket = await ticketRepository.findFirstTicketByUser(userId);
+  if (ticket.status !== TicketStatus.PAID || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel)
+    throw forbiddenError();
 &nbsp;
-    const room = await bookingRepository.checkRoom(roomId);
-    if (!room) throw notFoundError();
-    if (room.capacity === room._count.Booking) throw forbiddenError();
+  const room = await bookingRepository.checkRoom(roomId);
+  if (!room) throw notFoundError();
+  if (room.capacity === room._count.Booking) throw forbiddenError();
 &nbsp;
-    const booking = await bookingRepository.createBooking(roomId, userId);
-    return booking;
+  const booking = await bookingRepository.createBooking(roomId, userId);
+  return booking;
 }
 &nbsp;
 async function updateBooking(bookingId: number, roomId: number, userId: number) {
-    const booking = await bookingRepository.checkBooking(bookingId);
-    if (!booking) throw notFoundError();
-    if (booking.userId !== userId) throw forbiddenError();
+  const booking = await bookingRepository.checkBooking(bookingId);
+  if (!booking) throw forbiddenError();
+  if (booking.userId !== userId) throw forbiddenError();
 &nbsp;
-    const room = await bookingRepository.checkRoom(roomId);
-    if (!room) throw notFoundError();
-    if (room.capacity === room._count.Booking) throw forbiddenError();
+  const room = await bookingRepository.checkRoom(roomId);
+  if (!room) throw notFoundError();
+  if (room.capacity === room._count.Booking) throw forbiddenError();
 &nbsp;
+  await bookingRepository.updateBookig(bookingId, roomId);
 &nbsp;
-    await bookingRepository.updateBookig(bookingId, roomId);
-&nbsp;
-    return { bookingId };
+  return { bookingId };
 }
 &nbsp;
 const bookingService = {
-    getBooking, postBooking, updateBooking,
+  getBooking,
+  postBooking,
+  updateBooking,
 };
-export default bookingService;</pre></td></tr></table></pre>
+export default bookingService;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon May 01 2023 12:01:44 GMT-0300 (Brasilia Standard Time)
+                at Mon May 01 2023 12:43:19 GMT-0300 (Brasilia Standard Time)
             </div>
         <script src="../../../prettify.js"></script>
         <script>

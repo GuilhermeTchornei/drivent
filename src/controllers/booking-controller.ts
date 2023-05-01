@@ -22,7 +22,7 @@ async function postBooking(req: AuthenticatedRequest, res: Response) {
 
   try {
     const booking = await bookingService.postBooking(roomId, userId);
-    return res.status(httpStatus.CREATED).send({ bookingId: booking.id });
+    return res.status(httpStatus.OK).send({ bookingId: booking.id });
   } catch (error) {
     if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
     return res.sendStatus(httpStatus.FORBIDDEN);

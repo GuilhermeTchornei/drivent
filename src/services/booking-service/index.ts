@@ -25,7 +25,7 @@ async function postBooking(roomId: number, userId: number) {
 
 async function updateBooking(bookingId: number, roomId: number, userId: number) {
   const booking = await bookingRepository.checkBooking(bookingId);
-  if (!booking) throw notFoundError();
+  if (!booking) throw forbiddenError();
   if (booking.userId !== userId) throw forbiddenError();
 
   const room = await bookingRepository.checkRoom(roomId);
