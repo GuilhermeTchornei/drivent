@@ -8,15 +8,26 @@ export async function createHotelWithRooms() {
       image: faker.image.business(),
       Rooms: {
         createMany: {
-          data: {
-            name: faker.name.findName(),
-            capacity: parseInt(faker.random.numeric(2)),
-          },
+          data: [
+            {
+              name: faker.name.findName(),
+              capacity: parseInt(faker.random.numeric(1)),
+            },
+            {
+              name: faker.name.findName(),
+              capacity: parseInt(faker.random.numeric(1)),
+            },
+            {
+              name: faker.name.findName(),
+              capacity: parseInt(faker.random.numeric(1)),
+            },
+          ],
         },
       },
     },
     select: {
       id: true,
+      Rooms: true,
     },
   });
 }

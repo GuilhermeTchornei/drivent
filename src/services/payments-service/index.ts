@@ -19,8 +19,6 @@ async function createPayment(ticketId: number, cardData: CardData, userId: numbe
   if (!ticket) throw notFoundError();
   if (ticket.Enrollment.userId !== userId) throw unauthorizedError();
 
-  //const hotelPrice: number = ticket.TicketType.includesHotel ? 350 : 0;
-  //const value: number = ticket.TicketType.price + hotelPrice;
   const lastDigits: string = cardData.number.toString().slice(-4);
 
   const payment = await paymentRepository.createPayment(ticketId, ticket.TicketType.price, cardData.issuer, lastDigits);
