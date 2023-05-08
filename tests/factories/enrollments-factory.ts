@@ -1,9 +1,22 @@
 import faker from '@faker-js/faker';
 import { generateCPF, getStates } from '@brazilian-utils/brazilian-utils';
-import { User } from '@prisma/client';
+import { Enrollment, User } from '@prisma/client';
 
 import { createUser } from './users-factory';
 import { prisma } from '@/config';
+
+export function enrollmentFake() {
+  return {
+    id: faker.datatype.number(),
+    name: faker.name.findName(),
+    birthday: faker.date.recent(),
+    cpf: generateCPF(),
+    phone: faker.phone.phoneNumber('(##) 9####-####'),
+    userId: faker.datatype.number(),
+    createdAt: faker.date.recent(),
+    updatedAt: faker.date.recent(),
+  } as Enrollment;
+}
 
 export async function createEnrollmentWithAddress(user?: User) {
   const incomingUser = user || (await createUser());
